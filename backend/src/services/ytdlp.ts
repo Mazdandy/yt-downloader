@@ -91,6 +91,10 @@ export async function fetchMetadata(url: string): Promise<YtDlpMetadata> {
  * Download a specific format to a temp file, then resolve its final path.
  * `--no-part` disables .part files; `--force-overwrites` keeps retries clean.
  * Pass an `onCancel` callback (e.g. from the job manager) to abort the child process.
+ *
+ * The format selector falls back to `best` when the requested id is gone
+ * (ephemeral TikTok/Instagram ids, or yt-dlp version drift between parse and
+ * download) so we don't hard-fail with "Requested format is not available".
  */
 export async function downloadFormat(
   url: string,
@@ -102,7 +106,7 @@ export async function downloadFormat(
   const args = [
     ...COMMON_ARGS,
     "-f",
-    formatId,
+    `${formatId}/best`,
     "--no-part",
     "--force-overwrites",
     "-o",
@@ -217,7 +221,7 @@ async function resolveOutputPath(
 ): Promise<string> {
   const { stdout } = await execFileAsync(
     config.ytdlpPath,
-    [...COMMON_ARGS, "--print", "after_move:filepath", "-f", formatId, "-o", outTemplate, url],
+    [...COMMON_ARGS, "--print", "after_move:filepath", "-f", `${formatId}/best`, "-o", outTemplate, url],
     { maxBuffer: 1024 * 1024, timeout: 30_000 }
   );
   const path = stdout.trim().split("\n")[0];
@@ -230,7 +234,7 @@ async function fetchMetadataForFormat(
 ): Promise<YtDlpMetadata> {
   const { stdout } = await execFileAsync(
     config.ytdlpPath,
-    [...COMMON_ARGS, "-J", "-f", formatId, url],
+    [...COMMON_ARGS, "-J", "-f", `${formatId}/best`, url],
     { maxBuffer: 10 * 1024 * 1024, timeout: 30_000 }
   );
   return JSON.parse(stdout) as YtDlpMetadata;
