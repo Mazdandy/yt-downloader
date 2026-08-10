@@ -1,0 +1,17 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+.next/
+out/
+
+# Env
+.env
+.env.local
+
+# OS
+.DS_Store
+
+# Temp download files
+*.part

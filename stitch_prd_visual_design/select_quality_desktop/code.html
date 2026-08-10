@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>StreamSave - Download Options</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "error-red": "#ef4444",
+                      "on-secondary": "#ffffff",
+                      "on-tertiary-container": "#fcfcff",
+                      "tiktok-cyan": "#00f2ea",
+                      "inverse-surface": "#2d3133",
+                      "on-primary": "#ffffff",
+                      "surface-container": "#eceef0",
+                      "on-background": "#191c1e",
+                      "on-primary-container": "#fffbff",
+                      "tiktok-magenta": "#ff0050",
+                      "surface-container-highest": "#e0e3e5",
+                      "on-primary-fixed": "#07006c",
+                      "outline": "#767586",
+                      "on-secondary-fixed": "#0b1c30",
+                      "outline-variant": "#c7c4d7",
+                      "background": "#f7f9fb",
+                      "on-surface": "#191c1e",
+                      "on-error": "#ffffff",
+                      "surface-variant": "#e0e3e5",
+                      "error-container": "#ffdad6",
+                      "on-tertiary": "#ffffff",
+                      "success-green": "#22c55e",
+                      "secondary-container": "#d0e1fb",
+                      "secondary-fixed": "#d3e4fe",
+                      "primary-fixed-dim": "#c0c1ff",
+                      "surface-bright": "#f7f9fb",
+                      "instagram-gradient-start": "#405de6",
+                      "warning-amber": "#f59e0b",
+                      "surface": "#f7f9fb",
+                      "primary-container": "#6063ee",
+                      "instagram-gradient-end": "#c13584",
+                      "on-secondary-fixed-variant": "#38485d",
+                      "youtube-red": "#ff0000",
+                      "on-secondary-container": "#54647a",
+                      "tertiary-container": "#007cb1",
+                      "on-tertiary-fixed": "#001e2f",
+                      "tertiary-fixed-dim": "#89ceff",
+                      "on-error-container": "#93000a",
+                      "on-surface-variant": "#464554",
+                      "surface-tint": "#494bd6",
+                      "inverse-on-surface": "#eff1f3",
+                      "tertiary-fixed": "#c9e6ff",
+                      "surface-container-high": "#e6e8ea",
+                      "primary": "#4648d4",
+                      "secondary": "#505f76",
+                      "surface-dim": "#d8dadc",
+                      "tertiary": "#00628d",
+                      "primary-fixed": "#e1e0ff",
+                      "surface-container-low": "#f2f4f6",
+                      "on-tertiary-fixed-variant": "#004c6e",
+                      "surface-container-lowest": "#ffffff",
+                      "on-primary-fixed-variant": "#2f2ebe",
+                      "error": "#ba1a1a",
+                      "secondary-fixed-dim": "#b7c8e1",
+                      "inverse-primary": "#c0c1ff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "gutter": "1rem",
+                      "stack-md": "1rem",
+                      "touch-target-min": "48px",
+                      "stack-lg": "1.5rem",
+                      "stack-sm": "0.5rem",
+                      "container-margin": "1rem"
+              },
+              "fontFamily": {
+                      "mono-label": [
+                              "Inter"
+                      ],
+                      "label-md": [
+                              "Inter"
+                      ],
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "label-sm": [
+                              "Inter"
+                      ],
+                      "headline-lg-mobile": [
+                              "Inter"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "headline-lg": [
+                              "Inter"
+                      ],
+                      "headline-md": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "mono-label": [
+                              "13px",
+                              {
+                                      "lineHeight": "18px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "label-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "letterSpacing": "0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.02em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-md": [
+                              "20px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "600"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        body {
+            background-color: theme('colors.background');
+            color: theme('colors.on-background');
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col font-body-md">
+<!-- TopNavBar (Shared Component) -->
+<nav class="bg-surface-container-lowest dark:bg-inverse-surface border-b border-outline-variant dark:border-outline shadow-sm dark:shadow-none flex justify-between items-center w-full px-gutter h-touch-target-min max-w-full sticky top-0 z-50">
+<div class="text-headline-md font-headline-md font-bold text-primary dark:text-primary-fixed-dim">
+            StreamSave
+        </div>
+<div class="hidden md:flex gap-6 items-center">
+<a class="text-primary dark:text-primary-fixed-dim border-b-2 border-primary dark:border-primary-fixed-dim pb-1 font-bold font-label-md text-label-md hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200" href="#">Downloader</a>
+<a class="text-on-surface-variant dark:text-surface-variant font-medium font-label-md text-label-md hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200" href="#">History</a>
+<a class="text-on-surface-variant dark:text-surface-variant font-medium font-label-md text-label-md hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200" href="#">Settings</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="hidden md:block bg-primary text-on-primary font-label-md text-label-md px-4 py-2 rounded-full hover:opacity-90 transition-opacity">
+                Premium
+            </button>
+<button class="text-on-surface-variant hover:text-primary transition-colors flex items-center justify-center h-touch-target-min w-touch-target-min">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">account_circle</span>
+</button>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-grow w-full max-w-7xl mx-auto p-container-margin md:p-stack-lg flex flex-col items-center justify-center">
+<div class="w-full bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant overflow-hidden flex flex-col lg:flex-row">
+<!-- Left Panel: Video Preview -->
+<div class="w-full lg:w-1/2 p-stack-lg bg-surface-container-low flex flex-col justify-center items-center border-b lg:border-b-0 lg:border-r border-outline-variant">
+<div class="relative w-full aspect-video rounded-lg overflow-hidden shadow-sm border border-outline-variant group">
+<img class="w-full h-full object-cover" data-alt="A high-quality thumbnail image of a dynamic landscape video featuring a fast-moving stream cutting through a dense, vibrant green forest. The lighting is bright and modern, suggesting daytime. The aesthetic aligns with a clean, high-contrast digital utility platform. Subtle UI elements like a play button might be superimposed, but the focus is on the clear, natural scenery in 16:9 ratio." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB92vMImJiphd3oGkCLeccURmRAtcAEp5hbr0ehEPCrGhCocdqFk3nDnnkywYe2TdXpLbiNo0vnQmFf3AHPiOpWUcJa3aUKxFaB1dzb5h5OBqU39ntcH4sxcNCmmhyrwqq6Oeh7XYVl60PcZlbaH_KqWciEWwU9Mg9bD_F3PKCFd2zRJIhng68xzKf1gu4ovc89nqmNvLyJuktQpnfkVLv89feeCMPztP95kH8HeXhPmT6RhAhW9rj9Ng"/>
+<div class="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 cursor-pointer">
+<span class="material-symbols-outlined text-white text-6xl" style="font-variation-settings: 'FILL' 1;">play_circle</span>
+</div>
+<div class="absolute bottom-2 right-2 bg-black/70 text-white font-mono-label text-mono-label px-2 py-1 rounded">
+                        04:20
+                    </div>
+<div class="absolute top-2 left-2 bg-youtube-red text-white p-1 rounded-full shadow-sm flex items-center justify-center h-8 w-8">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">smart_display</span>
+</div>
+</div>
+<div class="mt-stack-md w-full text-left">
+<h2 class="font-headline-md text-headline-md text-on-surface truncate" title="Epic Stream Footage in 4K - Nature Sounds">Epic Stream Footage in 4K - Nature Sounds</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Uploaded 2 days ago • 1.2M views</p>
+</div>
+</div>
+<!-- Right Panel: Download Options -->
+<div class="w-full lg:w-1/2 p-stack-lg flex flex-col">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-stack-lg border-b border-outline-variant pb-2">Download Options</h3>
+<!-- Resolution Selection (Bento-style Grid) -->
+<div class="mb-stack-lg">
+<label class="block font-label-md text-label-md text-on-surface-variant mb-stack-sm">Video Quality</label>
+<div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+<!-- Selected Option -->
+<label class="relative cursor-pointer">
+<input checked="" class="peer sr-only" name="quality" type="radio"/>
+<div class="h-full border-2 border-outline-variant peer-checked:border-primary peer-checked:bg-primary/5 rounded-lg p-3 text-center transition-all">
+<div class="font-label-md text-label-md text-on-surface">4K Ultra HD</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant mt-1">~1.2 GB</div>
+<span class="material-symbols-outlined absolute top-2 right-2 text-primary opacity-0 peer-checked:opacity-100 text-[18px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+</label>
+<!-- Unselected Option -->
+<label class="relative cursor-pointer">
+<input class="peer sr-only" name="quality" type="radio"/>
+<div class="h-full border-2 border-outline-variant hover:border-primary/50 peer-checked:border-primary peer-checked:bg-primary/5 rounded-lg p-3 text-center transition-all">
+<div class="font-label-md text-label-md text-on-surface">1080p Full HD</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant mt-1">~450 MB</div>
+<span class="material-symbols-outlined absolute top-2 right-2 text-primary opacity-0 peer-checked:opacity-100 text-[18px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+</label>
+<!-- Unselected Option -->
+<label class="relative cursor-pointer">
+<input class="peer sr-only" name="quality" type="radio"/>
+<div class="h-full border-2 border-outline-variant hover:border-primary/50 peer-checked:border-primary peer-checked:bg-primary/5 rounded-lg p-3 text-center transition-all">
+<div class="font-label-md text-label-md text-on-surface">720p HD</div>
+<div class="font-label-sm text-label-sm text-on-surface-variant mt-1">~200 MB</div>
+<span class="material-symbols-outlined absolute top-2 right-2 text-primary opacity-0 peer-checked:opacity-100 text-[18px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+</label>
+</div>
+</div>
+<!-- Format Selection & Toggles -->
+<div class="mb-stack-lg flex flex-col gap-stack-md border-b border-outline-variant pb-stack-lg">
+<div class="flex items-center justify-between">
+<label class="font-label-md text-label-md text-on-surface-variant">Format</label>
+<div class="flex bg-surface-container rounded-lg p-1">
+<button class="px-4 py-1.5 rounded bg-surface-container-lowest shadow-sm font-label-md text-label-md text-on-surface">MP4</button>
+<button class="px-4 py-1.5 rounded hover:bg-surface-container-highest font-label-md text-label-md text-on-surface-variant transition-colors">WEBM</button>
+</div>
+</div>
+<!-- Audio Only Toggle -->
+<div class="flex items-center justify-between">
+<label class="font-label-md text-label-md text-on-surface flex items-center gap-2 cursor-pointer" for="toggle-audio">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]" style="font-variation-settings: 'FILL' 0;">audio_file</span>
+                            Audio Only
+                        </label>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" id="toggle-audio" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-dim peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<!-- Watermark Toggle (Contextual example, styled similarly) -->
+<div class="flex items-center justify-between opacity-50 cursor-not-allowed" title="Not applicable for this platform">
+<label class="font-label-md text-label-md text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]" style="font-variation-settings: 'FILL' 0;">water_drop</span>
+                            Remove Watermark
+                        </label>
+<label class="relative inline-flex items-center">
+<input class="sr-only peer" disabled="" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-dim rounded-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all"></div>
+</label>
+</div>
+</div>
+<!-- Primary Action -->
+<div class="mt-auto pt-stack-md">
+<button class="w-full bg-primary text-on-primary h-touch-target-min rounded-lg font-label-md text-label-md flex items-center justify-center gap-2 hover:bg-primary-fixed-variant transition-colors shadow-sm">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">download</span>
+                        Start Download
+                    </button>
+<p class="text-center font-label-sm text-label-sm text-on-surface-variant mt-2">
+                        By downloading, you agree to our Terms of Service.
+                    </p>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer (Shared Component) -->
+<footer class="bg-surface-container dark:bg-inverse-surface border-t border-outline-variant dark:border-outline w-full py-stack-lg px-gutter flex flex-col md:flex-row justify-between items-center gap-stack-md mt-auto">
+<div class="text-label-md font-label-md font-bold text-on-surface">
+            StreamSave
+        </div>
+<div class="flex flex-wrap justify-center gap-4">
+<a class="text-on-secondary-container dark:text-on-secondary-fixed-variant font-label-sm text-label-sm hover:underline hover:text-primary dark:hover:text-primary-fixed-dim" href="#">Terms of Service</a>
+<a class="text-on-secondary-container dark:text-on-secondary-fixed-variant font-label-sm text-label-sm hover:underline hover:text-primary dark:hover:text-primary-fixed-dim" href="#">Privacy Policy</a>
+<a class="text-on-secondary-container dark:text-on-secondary-fixed-variant font-label-sm text-label-sm hover:underline hover:text-primary dark:hover:text-primary-fixed-dim" href="#">API Docs</a>
+<a class="text-on-secondary-container dark:text-on-secondary-fixed-variant font-label-sm text-label-sm hover:underline hover:text-primary dark:hover:text-primary-fixed-dim" href="#">Help Center</a>
+</div>
+<div class="text-secondary dark:text-secondary-fixed-dim font-label-sm text-label-sm">
+            © 2024 StreamSave Video Downloader. All rights reserved.
+        </div>
+</footer>
+</body></html>

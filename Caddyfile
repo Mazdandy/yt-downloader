@@ -1,0 +1,15 @@
+# Replace with your real domain (DNS must point to this VPS).
+# Caddy automatically provisions and renews HTTPS via Let's Encrypt.
+your-domain.com {
+	encode gzip
+
+	# Backend API — proxy to the backend container.
+	handle /api/* {
+		reverse_proxy backend:8787
+	}
+
+	# Frontend — everything else goes to Next.js.
+	handle {
+		reverse_proxy frontend:3000
+	}
+}

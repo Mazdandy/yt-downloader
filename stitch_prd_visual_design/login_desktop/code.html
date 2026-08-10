@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Login - VibeDownloader</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "inverse-surface": "#2f3132",
+                      "primary-fixed-dim": "#b6c4ff",
+                      "surface-tint": "#004dea",
+                      "inverse-on-surface": "#f0f1f2",
+                      "on-tertiary-container": "#ffe1d9",
+                      "inverse-primary": "#b6c4ff",
+                      "on-primary-fixed": "#001551",
+                      "secondary": "#5f5e5f",
+                      "on-surface-variant": "#434656",
+                      "on-background": "#1a1c1d",
+                      "surface-container-high": "#e8e8e9",
+                      "on-tertiary": "#ffffff",
+                      "primary-container": "#0055ff",
+                      "error-container": "#ffdad6",
+                      "on-primary-fixed-variant": "#0039b3",
+                      "on-primary": "#ffffff",
+                      "surface-container-low": "#f3f3f4",
+                      "on-error": "#ffffff",
+                      "outline-variant": "#c3c5d9",
+                      "on-secondary-fixed": "#1b1b1c",
+                      "surface-container": "#eeeeef",
+                      "on-surface": "#1a1c1d",
+                      "secondary-fixed-dim": "#c8c6c7",
+                      "on-secondary-container": "#636263",
+                      "background": "#f9f9fa",
+                      "surface-variant": "#e2e2e3",
+                      "on-primary-container": "#e3e6ff",
+                      "surface-dim": "#dadadb",
+                      "on-secondary-fixed-variant": "#474647",
+                      "secondary-fixed": "#e5e2e3",
+                      "secondary-container": "#e2dfe0",
+                      "tertiary-container": "#c13301",
+                      "surface": "#f9f9fa",
+                      "surface-container-lowest": "#ffffff",
+                      "surface-container-highest": "#e2e2e3",
+                      "tertiary-fixed": "#ffdbd1",
+                      "on-tertiary-fixed-variant": "#872100",
+                      "on-secondary": "#ffffff",
+                      "outline": "#737688",
+                      "primary": "#0041c8",
+                      "on-tertiary-fixed": "#3b0900",
+                      "on-error-container": "#93000a",
+                      "primary-fixed": "#dce1ff",
+                      "error": "#ba1a1a",
+                      "tertiary-fixed-dim": "#ffb5a0",
+                      "tertiary": "#972500",
+                      "surface-bright": "#f9f9fa"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "stack-lg": "24px",
+                      "auth-container-width": "400px",
+                      "stack-md": "16px",
+                      "stack-xl": "48px",
+                      "gutter": "20px",
+                      "stack-sm": "8px",
+                      "stack-xs": "4px"
+              },
+              "fontFamily": {
+                      "body-sm": [
+                              "Inter"
+                      ],
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "error-text": [
+                              "Inter"
+                      ],
+                      "headline-md": [
+                              "Hanken Grotesk"
+                      ],
+                      "label-bold": [
+                              "Inter"
+                      ],
+                      "headline-lg": [
+                              "Hanken Grotesk"
+                      ]
+              },
+              "fontSize": {
+                      "body-sm": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-lg": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "error-text": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-bold": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ]
+              }
+            },
+          },
+        }
+      </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover, 
+        input:-webkit-autofill:focus, 
+        input:-webkit-autofill:active{
+            -webkit-box-shadow: 0 0 0 30px #F4F4F5 inset !important;
+            -webkit-text-fill-color: #1a1c1d !important;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface h-full flex flex-col font-body-lg">
+<!-- TopNavBar (Suppressed for transactional screen per instructions, but requirements say use {{DATA:COMPONENTS:COMPONENTS_13}} for TopNavBar with Back to Home. Will implement as a simplified header per standard auth flows, but using the JSON properties) -->
+<header class="bg-surface dark:bg-surface w-full px-gutter py-stack-md flex justify-between items-center max-w-auth-container-width mx-auto">
+<div class="text-headline-md font-headline-md text-on-surface dark:text-inverse-on-surface font-bold tracking-tight">
+            VideoFlow
+        </div>
+<a class="text-on-surface-variant dark:text-on-surface-variant font-body-lg text-body-lg flex items-center gap-1 hover:text-primary dark:hover:text-primary-fixed-dim transition-colors" href="#">
+<span class="material-symbols-outlined text-[16px]">arrow_back</span>
+            Back to Home
+        </a>
+</header>
+<!-- Main Content -->
+<main class="flex-grow flex items-center justify-center p-4">
+<div class="w-full max-w-auth-container-width bg-surface border border-outline-variant/30 rounded p-[40px]">
+<div class="text-center mb-stack-xl">
+<h1 class="font-headline-lg text-headline-lg text-on-surface mb-stack-sm">Sign in to VibeDownloader</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Enter your email to continue</p>
+</div>
+<form action="#" class="space-y-stack-lg" method="POST">
+<div>
+<label class="block font-label-bold text-label-bold text-on-surface mb-stack-xs uppercase tracking-wider" for="email">Email Address</label>
+<div class="relative">
+<input class="w-full bg-[#F4F4F5] border border-transparent focus:border-primary-container focus:ring-0 text-on-surface font-body-lg text-body-lg rounded px-4 py-3 transition-colors duration-200 outline-none" id="email" name="email" placeholder="you@example.com" required="" type="email"/>
+</div>
+</div>
+<button class="w-full bg-primary-container text-on-primary font-body-lg text-body-lg font-medium rounded py-3 flex items-center justify-center gap-2 hover:bg-primary transition-all duration-200 active:scale-98" type="submit">
+                    Continue with Email
+                </button>
+</form>
+<div class="mt-stack-lg text-center">
+<a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">
+                    Don't have an account? <span class="text-primary font-medium">Create one</span>
+</a>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-surface dark:bg-surface flex flex-col items-center gap-stack-sm w-full py-stack-lg border-t border-outline-variant/20 mt-auto">
+<div class="text-label-bold font-label-bold text-on-surface">VideoFlow</div>
+<div class="flex gap-6">
+<a class="text-on-secondary-container dark:text-on-secondary-container font-body-sm text-body-sm hover:underline hover:text-primary dark:hover:text-primary-fixed-dim transition-colors" href="#">Privacy Policy</a>
+<a class="text-on-secondary-container dark:text-on-secondary-container font-body-sm text-body-sm hover:underline hover:text-primary dark:hover:text-primary-fixed-dim transition-colors" href="#">Terms of Service</a>
+<a class="text-on-secondary-container dark:text-on-secondary-container font-body-sm text-body-sm hover:underline hover:text-primary dark:hover:text-primary-fixed-dim transition-colors" href="#">Help Center</a>
+</div>
+<div class="font-body-sm text-body-sm text-secondary dark:text-secondary-fixed-dim mt-stack-xs">
+            © 2024 VideoFlow. All rights reserved.
+        </div>
+</footer>
+<script>
+        // Simple form interaction
+        const form = document.querySelector('form');
+        const button = form.querySelector('button');
+        const input = document.getElementById('email');
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            if(input.value) {
+                const originalText = button.innerHTML;
+                button.innerHTML = '<span class="material-symbols-outlined animate-spin">progress_activity</span>';
+                button.classList.add('opacity-70', 'cursor-not-allowed');
+                
+                // Simulate network request
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.classList.remove('opacity-70', 'cursor-not-allowed');
+                    
+                    // Show success toast (simulated)
+                    const toast = document.createElement('div');
+                    toast.className = 'fixed bottom-8 left-1/2 -translate-x-1/2 bg-on-surface text-on-primary px-6 py-3 rounded font-body-sm text-body-sm shadow-lg transition-opacity duration-300 z-50';
+                    toast.textContent = 'Check your email for a login link.';
+                    document.body.appendChild(toast);
+                    
+                    setTimeout(() => {
+                        toast.classList.add('opacity-0');
+                        setTimeout(() => toast.remove(), 300);
+                    }, 3000);
+                    
+                }, 1500);
+            }
+        });
+    </script>
+</body></html>

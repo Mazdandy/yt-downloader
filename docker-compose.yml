@@ -1,0 +1,39 @@
+services:
+  backend:
+    build: ./backend
+    restart: unless-stopped
+    environment:
+      PORT: 8787
+      NODE_ENV: production
+      # Lock CORS to the frontend origin. With Caddy proxying both on one domain,
+      # requests to /api come from the same origin, so this can stay permissive.
+      CORS_ORIGINS: "*"
+      # PRD §9.2: 30 requests/IP/hour. Raise for production traffic.
+      RATE_LIMIT_MAX: "30"
+    volumes:
+      - vdl-tmp:/tmp/vdl
+
+  frontend:
+    build: ./frontend
+    restart: unless-stopped
+    environment:
+      PORT: 3000
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    depends_on:
+      - backend
+      - frontend
+
+volumes:
+  vdl-tmp:
+  caddy-data:
+  caddy-config:

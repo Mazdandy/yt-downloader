@@ -1,0 +1,20 @@
+# Render Blueprint — Video Downloader Backend
+# Deploy via: Render dashboard → Blueprint → point at this repo (subdirectory: backend)
+services:
+  - type: web
+    name: video-downloader-backend
+    runtime: docker
+    rootDir: backend
+    dockerfilePath: Dockerfile
+    healthCheckPath: /api/v1/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: "8787"
+      # Lock CORS to your deployed frontend origin (no trailing slash)
+      - key: CORS_ORIGINS
+        value: https://your-frontend.vercel.app
+      # PRD §9.2 default is 30/hr; raise for heavier use
+      - key: RATE_LIMIT_MAX
+        value: "30"
