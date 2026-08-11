@@ -127,7 +127,8 @@ class DownloadManager extends EventEmitter {
               }
               this.emit("update", job);
             },
-            () => job.cancelled
+            () => job.cancelled,
+            job.platform
           );
           break;
         } catch (err) {

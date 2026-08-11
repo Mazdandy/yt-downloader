@@ -81,9 +81,24 @@ export default function Home() {
       const data = await parseUrl(url.trim());
       setPreview(data);
       // US-002: default to highest available quality
+      // TikTok/Instagram serve HEVC (h265) streams that browsers can't play;
+      // prefer H.264 when a choice exists at the same resolution.
+      const isH264 = (f: { codec?: string }) =>
+        !f.codec ||
+        f.codec.toLowerCase().startsWith("avc") ||
+        f.codec.toLowerCase().includes("h264");
+      const preferred = (
+        a: { codec?: string; height?: number },
+        b: { codec?: string; height?: number }
+      ) => {
+        const aH = isH264(a) ? 1 : 0;
+        const bH = isH264(b) ? 1 : 0;
+        if (aH !== bH) return bH - aH;
+        return (b.height ?? 0) - (a.height ?? 0);
+      };
       const defaultFormat =
         data.formats.find((f) => f.kind === "video+audio" && !f.requiresMerge) ||
-        data.formats[0] ||
+        [...data.formats].sort(preferred)[0] ||
         null;
       setSelectedFormat(defaultFormat);
     } catch (err) {

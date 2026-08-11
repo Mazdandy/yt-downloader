@@ -93,6 +93,21 @@ export function buildFormats(
     }
 
     // TikTok / Instagram: everything is single-file progressive.
+    // Prefer H.264 (h264_*) over HEVC/H.265 (bytevc1_*) — HEVC inside an .mp4
+    // is not playable in most browsers, which surfaces as audio + blank video.
+    if (platform === "tiktok" || platform === "instagram") {
+      const vcodec = (f.vcodec || "").toLowerCase();
+      if (vcodec.startsWith("avc") || vcodec === "h264") {
+        available.push(vf);
+      } else if (vf.kind === "audio") {
+        available.push(vf); // keep audio-only streams
+      } else if (!available.some((a) => a.height === vf.height && a.kind === vf.kind)) {
+        // Fall back to HEVC only when no H.264 stream exists at that resolution.
+        available.push(vf);
+      }
+      continue;
+    }
+
     if (vf.kind === "video" || vf.kind === "video+audio") {
       available.push(vf);
     } else {
