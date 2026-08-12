@@ -11,11 +11,5 @@ export const config = {
     process.env.TRANSCODE_TIMEOUT_MS || (120 * 1000).toString(),
     10
   ),
-  // PRD §9.2: 30 requests per IP per hour.
-  // Set RATE_LIMIT_MAX=0 to disable (development only).
-  rateLimit: {
-    windowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS || (60 * 60 * 1000).toString(), 10),
-    max: parseInt(process.env.RATE_LIMIT_MAX || "30", 10),
-  },
   corsOrigins: (process.env.CORS_ORIGINS || "*").split(","),
 };

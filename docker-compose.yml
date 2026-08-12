@@ -8,8 +8,6 @@ services:
       # Lock CORS to the frontend origin. With Caddy proxying both on one domain,
       # requests to /api come from the same origin, so this can stay permissive.
       CORS_ORIGINS: "*"
-      # PRD §9.2: 30 requests/IP/hour. Raise for production traffic.
-      RATE_LIMIT_MAX: "30"
     volumes:
       - vdl-tmp:/tmp/vdl
 

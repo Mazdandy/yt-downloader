@@ -14,7 +14,7 @@ Multi-platform video downloader (YouTube · TikTok · Instagram Reels) built fro
 ```
 ├── backend/                  # Express + TypeScript API (port 8787)
 │   └── src/
-│       ├── server.ts         # App entry: helmet, CORS, rate limit, routes
+│       ├── server.ts         # App entry: helmet, CORS, routes
 │       ├── config.ts         # Env-configurable settings
 │       ├── routes/api.ts     # /parse, /download, /status/:id, /cancel/:id, /file/:id
 │       ├── services/
@@ -99,8 +99,6 @@ All optional, via env vars (see `backend/.env.example`):
 | `PORT` | `8787` | API port |
 | `YTDLP_PATH` | `yt-dlp` | Path to the yt-dlp binary |
 | `TEMP_DIR` | system tmp | Where temp downloads live (deleted after streaming) |
-| `RATE_LIMIT_MAX` | `30` | Requests per IP per hour (PRD §9.2). `0` = disabled (dev) |
-| `RATE_LIMIT_WINDOW_MS` | `3600000` | Rate limit window |
 | `CORS_ORIGINS` | `*` | Comma-separated allowed origins |
 | `MAX_CONCURRENT_DOWNLOADS` | `3` | Concurrent download cap (PRD FR-13) |
 
@@ -177,7 +175,7 @@ pointing to the server's IP.
    (frontend `/`, API `/api/*`).
 
 The frontend uses same-origin API paths by default (no `NEXT_PUBLIC_API_URL` needed).
-Tune `RATE_LIMIT_MAX` and `CORS_ORIGINS` in `docker-compose.yml` as needed.
+Tune `CORS_ORIGINS` in `docker-compose.yml` as needed.
 
 **Optional — port 80/443 on a cheap VPS:** if you don't have a domain yet, you can
 point the URL bar at the server IP during development, but HTTPS (and thus Caddy) needs
@@ -199,7 +197,6 @@ Required env vars:
 |-----|-------------------|
 | `CORS_ORIGINS` | your Vercel frontend URL, e.g. `https://vibe-downloader.vercel.app` |
 | `PORT` | `8787` (Railway sets it automatically; use `$PORT` binding) |
-| `RATE_LIMIT_MAX` | `30` (PRD §9.2) or higher for launch |
 
 After deploy you get a URL like `https://video-downloader-backend.up.railway.app`.
 Verify: `curl https://<your-backend>/api/v1/health` → `{"status":"ok"}`.
@@ -236,7 +233,6 @@ Verify: `curl https://<your-backend>/api/v1/health` → `{"status":"ok"}`.
 - TikTok & Instagram extraction depends on yt-dlp working against those platforms from
   your IP; both are aggressive about bot blocking. YouTube is the most reliable.
 - Download history is session-only (in-memory) per PRD US-007.
-- Rate limiting applies per IP; you'll hit 429 after 30 requests/hour in default config.
 
 ## Legal
 

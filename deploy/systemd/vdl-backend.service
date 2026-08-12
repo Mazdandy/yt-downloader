@@ -8,8 +8,6 @@ User=__USER__
 WorkingDirectory=__APP_DIR__/backend
 Environment=NODE_ENV=production
 Environment=PORT=8787
-# 30 req/hr/IP per PRD §9.2; set 0 to disable
-Environment=RATE_LIMIT_MAX=30
 # Temp downloads live here; adjust if you want a separate disk
 Environment=TEMP_DIR=/tmp/vdl
 ExecStart=/usr/bin/node __APP_DIR__/backend/dist/server.js

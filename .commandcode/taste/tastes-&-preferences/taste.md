@@ -1,6 +1,6 @@
 # Tastes & Preferences
 - Communicates in Indonesian (Bahasa Indonesia) and expects the agent to reply in the same language — though on occasion writes casual, typo-heavy English instead (e.g., "i think the issue is when in downloading phase, it took too long, how it happen?"), so language may vary by session. Confidence: 0.9
-- Tends to report bugs tersely with minimal context (e.g., just the raw error text like "i got 422", "spawn yt-dlp ENOENT", "Requested format is not available. Use --list-formats", a vague "seems like yt-dlp is not working well", or a raw error message plus the exact curl command — headers copied from the browser — pasted verbatim), and relies on the agent to investigate, reproduce, and root-cause the issue before proposing fixes. Confidence: 0.97
+- Tends to give terse, minimal-context instructions — bug reports (e.g., just raw error text like "i got 422", "spawn yt-dlp ENOENT", or a vague "seems like yt-dlp is not working well") and one-line change requests alike (e.g., "hapus rate limit") — and relies on the agent to investigate, reproduce, root-cause, and scope the change across the whole repo (source, config, env examples, deploy manifests, docs, lockfiles) before fixing. Confidence: 0.97
 - Prefers backend-first implementation order when building full-stack features (explicitly asked for the backend before the frontend). Confidence: 0.7
 - Welcomes the agent asking clarifying questions while coding, not just up-front ("maybe you can ask me while you code"). Confidence: 0.8
 - Expects implementation to be driven from the PRD/spec documents in the repo (referenced a PRD markdown file as the definition of what to build). Confidence: 0.6
@@ -12,3 +12,4 @@
 - Reports regressions by anchoring on project history and recent code changes ("do you remember the first try...?", "since we have changes on that part, the download cant be done") — expects the agent to remember prior bugs/fixes discussed in earlier sessions and to start the investigation from the recent commits/git history. Confidence: 0.55
 
 - Wants changes verified/tested on the local dev setup before considering them done or deploying ("bisa test di local dulu?") — prefers a local end-to-end run as the first validation step rather than going straight to the VPS/production. Confidence: 0.65
+tup before considering them done or deploying ("bisa test di local dulu?") — prefers a local end-to-end run as the first validation step rather than going straight to the VPS/production. Confidence: 0.65

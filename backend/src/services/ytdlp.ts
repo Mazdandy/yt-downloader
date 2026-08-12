@@ -189,9 +189,11 @@ export async function downloadFormat(
   let lastProgress = 0;
   let destinationPath: string | null = null;
 
-  // yt-dlp prints progress + errors to stderr, but the "[download]
-  // Destination:" line goes to stdout. Listen on both so we capture the real
-  // output path without a second yt-dlp invocation.
+  // yt-dlp prints the "[download] Destination:" line to stdout, and progress
+  // lines can land on EITHER stdout or stderr depending on whether the output
+  // is a TTY and whether the transfer is a fresh download or a resume. We
+  // listen on both so progress always reaches the job. The same parser is
+  // attached to each stream; it only emits when the percentage moved.
   const onStdout = (chunk: Buffer) => {
     const text = chunk.toString();
     const destMatch = text.match(/\[download\]\s+Destination:\s+(.+)/i);
@@ -204,11 +206,10 @@ export async function downloadFormat(
         filename: destinationPath,
       });
     }
+    parseProgressText(text);
   };
 
-  const onData = (chunk: Buffer) => {
-    const text = chunk.toString();
-    stderrBuf += text;
+  const parseProgressText = (text: string) => {
     // yt-dlp progress lines look like: [download]  45.2% of 12.34MiB at 2.10MiB/s ETA 00:06
     const progressMatch = text.match(
       /\[download\]\s+(\d+(?:\.\d+)?)%\s+of\s+~?([\d.]+)(\w+)/i
@@ -240,6 +241,12 @@ export async function downloadFormat(
         });
       }
     }
+  };
+
+  const onData = (chunk: Buffer) => {
+    const text = chunk.toString();
+    stderrBuf += text;
+    parseProgressText(text);
 
     // Some yt-dlp versions/configs put the destination line on stderr too.
     const destMatch = text.match(
@@ -458,12 +465,15 @@ function unitToBytes(unit: string): number {
   switch (unit) {
     case "k":
     case "kb":
+    case "kib":
       return 1024;
     case "m":
     case "mb":
+    case "mib":
       return 1024 * 1024;
     case "g":
     case "gb":
+    case "gib":
       return 1024 * 1024 * 1024;
     default:
       return 1;
