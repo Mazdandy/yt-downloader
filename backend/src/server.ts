@@ -15,7 +15,10 @@ app.use(
 );
 app.use(express.json({ limit: "64kb" }));
 
-// PRD §9.2: 30 requests per IP per hour. RATE_LIMIT_MAX=0 disables it (dev only).
+// PRD §9.2: 30 requests per IP per hour for expensive actions (parse/download).
+// RATE_LIMIT_MAX=0 disables it (dev only). Status polling is exempt — the
+// frontend polls every second while a download runs, which would burn the
+// whole hourly budget in one download.
 const limiter = rateLimit({
   windowMs: config.rateLimit.windowMs,
   max: config.rateLimit.max,
@@ -24,7 +27,13 @@ const limiter = rateLimit({
   skip: () => config.rateLimit.max === 0,
   message: { error: "Rate limit exceeded. Try again later." },
 });
-app.use("/api/", limiter);
+app.use("/api/", (req, res, next) => {
+  if (req.method === "GET" && /^\/api\/v1\/status\/.+/.test(req.path)) {
+    next();
+    return;
+  }
+  limiter(req, res, next);
+});
 
 app.get("/api/v1/health", (_req: Request, res: Response) => {
   res.json({ status: "ok", uptime: process.uptime() });
