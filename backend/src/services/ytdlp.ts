@@ -1,5 +1,6 @@
 import { execFile } from "child_process";
 import { promisify } from "util";
+import { existsSync } from "fs";
 import { rename, unlink } from "fs/promises";
 import { config } from "../config.js";
 
@@ -138,7 +139,8 @@ function isRetryableYtDlpError(err: unknown): boolean {
 
 /**
  * Download a specific format to a temp file, then resolve its final path.
- * `--no-part` disables .part files; `--force-overwrites` keeps retries clean.
+ * yt-dlp writes a `.part` file while transferring and `--continue` makes a
+ * retry resume from where it left off instead of re-downloading from zero.
  * Pass an `onCancel` callback (e.g. from the job manager) to abort the child process.
  *
  * The format selector falls back to `best` when the requested id is gone
@@ -157,8 +159,9 @@ export async function downloadFormat(
     ...COMMON_ARGS,
     "-f",
     `${formatId}/best`,
-    "--no-part",
-    "--force-overwrites",
+    // Resume a partially-downloaded `.part` on retries (yt-dlp default is
+    // --continue; we spell it out so the intent is visible).
+    "--continue",
     "-o",
     outTemplate,
   ];
@@ -276,6 +279,16 @@ export async function downloadFormat(
   // The [download] Destination line is printed before the transfer starts;
   // if it never showed up, fall back to the output template.
   const filePath = destinationPath || resolveTemplatePath(outTemplate);
+
+  // If the final file doesn't exist but a `.part` does, the transfer was
+  // interrupted — keep the `.part` so the next attempt can resume it.
+  if (!existsSync(filePath) && existsSync(`${filePath}.part`)) {
+    onProgress?.({
+      status: "downloading",
+      downloadedBytes: 0,
+      filename: filePath,
+    });
+  }
 
   // HEVC → H.264: probe the finished file and, if the video track is HEVC,
   // rewrite it to H.264 in place. Only TikTok/Instagram ship HEVC, and only

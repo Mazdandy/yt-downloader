@@ -139,7 +139,12 @@ class DownloadManager extends EventEmitter {
 
       if (job.cancelled) {
         job.status = "cancelled";
-        if (job.filePath) unlink(job.filePath, () => {});
+        if (job.filePath) {
+          unlink(job.filePath, () => {});
+          // Remove the partial file too so a cancelled download doesn't leave
+          // a stale `.part` that a future retry could resume incorrectly.
+          unlink(`${job.filePath}.part`, () => {});
+        }
         job.finishedAt = Date.now();
       } else if (result) {
         job.status = "finished";
