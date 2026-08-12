@@ -2,7 +2,7 @@ import { EventEmitter } from "events";
 import { randomUUID } from "crypto";
 import { unlink } from "fs";
 import { config } from "../config.js";
-import { downloadFormat } from "./ytdlp.js";
+import { downloadFormat, TranscodeError, DownloadPhase } from "./ytdlp.js";
 
 export type DownloadStatus = "queued" | "downloading" | "finished" | "failed" | "cancelled";
 
@@ -14,6 +14,7 @@ export interface DownloadJob {
   title: string;
   status: DownloadStatus;
   progress: number; // 0..100
+  phase?: DownloadPhase;
   speedBytesPerSec?: number;
   etaSeconds?: number;
   totalBytes?: number;
@@ -114,14 +115,15 @@ class DownloadManager extends EventEmitter {
             `${config.tempDir}/vdl-${job.id}-%(title)s.%(ext)s`,
             (p) => {
               if (job.cancelled) return;
+              job.phase = p.phase;
               if (p.status === "downloading") {
                 job.progress = Math.min(
                   100,
                   Math.max(0, Math.round((p.downloadedBytes / (p.totalBytes || 1)) * 100))
                 );
-                job.speedBytesPerSec = p.speedBytesPerSec;
-                job.etaSeconds = p.etaSeconds;
-                job.totalBytes = p.totalBytes;
+                if (p.speedBytesPerSec !== undefined) job.speedBytesPerSec = p.speedBytesPerSec;
+                if (p.etaSeconds !== undefined) job.etaSeconds = p.etaSeconds;
+                if (p.totalBytes !== undefined) job.totalBytes = p.totalBytes;
                 job.downloadedBytes = p.downloadedBytes;
                 if (p.filename) job.filePath = p.filename;
               }
@@ -134,6 +136,9 @@ class DownloadManager extends EventEmitter {
         } catch (err) {
           lastError = err;
           if (job.cancelled) break;
+          // Transcode failures are not transient — retrying re-downloads the
+          // whole file only to fail again. Fail fast with a clear message.
+          if (err instanceof TranscodeError) break;
         }
       }
 
@@ -149,12 +154,19 @@ class DownloadManager extends EventEmitter {
       } else if (result) {
         job.status = "finished";
         job.progress = 100;
+        job.phase = "downloading";
         job.filePath = result.filePath;
         job.error = undefined;
         job.finishedAt = Date.now();
       } else {
         job.status = "failed";
         job.error = lastError instanceof Error ? lastError.message : String(lastError);
+        if (job.filePath) {
+          // A failed download (e.g. transcode error) leaves a usable file —
+          // remove it so the next attempt starts clean.
+          unlink(job.filePath, () => {});
+          unlink(`${job.filePath}.part`, () => {});
+        }
         job.finishedAt = Date.now();
       }
     } finally {

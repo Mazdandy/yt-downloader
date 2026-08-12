@@ -71,6 +71,7 @@ apiRouter.get("/status/:id", (req: Request, res: Response) => {
     id: job.id,
     status: job.status,
     progress: job.progress,
+    phase: job.phase,
     speedBytesPerSec: job.speedBytesPerSec,
     etaSeconds: job.etaSeconds,
     totalBytes: job.totalBytes,

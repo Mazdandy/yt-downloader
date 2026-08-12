@@ -44,10 +44,14 @@ export type JobStatus =
   | "failed"
   | "cancelled";
 
+/** What stage of the pipeline a job is in: still downloading or converting codecs. */
+export type DownloadPhase = "downloading" | "converting";
+
 export interface JobStatusResponse {
   id: string;
   status: JobStatus;
   progress: number;
+  phase?: DownloadPhase;
   speedBytesPerSec?: number;
   etaSeconds?: number;
   totalBytes?: number;

@@ -53,14 +53,20 @@ export interface YtDlpDownloadInfo {
   formatId: string;
 }
 
+export type DownloadPhase = "downloading" | "converting";
+
 export interface DownloadProgress {
   status: "downloading" | "finished";
+  phase: DownloadPhase;
   downloadedBytes: number;
   totalBytes?: number;
   speedBytesPerSec?: number;
   etaSeconds?: number;
   filename?: string;
 }
+
+/** Thrown when the HEVC→H.264 transcode fails; the download must not be marked finished. */
+export class TranscodeError extends Error {}
 
 export type ProgressCallback = (progress: DownloadProgress) => void;
 
@@ -193,6 +199,7 @@ export async function downloadFormat(
       destinationPath = destMatch[1].trim();
       onProgress?.({
         status: "downloading",
+        phase: "downloading",
         downloadedBytes: 0,
         filename: destinationPath,
       });
@@ -225,6 +232,7 @@ export async function downloadFormat(
         lastProgress = percent;
         onProgress({
           status: "downloading",
+          phase: "downloading",
           downloadedBytes: Math.round((percent / 100) * totalBytes),
           totalBytes,
           speedBytesPerSec,
@@ -241,6 +249,7 @@ export async function downloadFormat(
       destinationPath = destMatch[1].trim();
       onProgress?.({
         status: "downloading",
+        phase: "downloading",
         downloadedBytes: 0,
         filename: destinationPath,
       });
@@ -285,6 +294,7 @@ export async function downloadFormat(
   if (!existsSync(filePath) && existsSync(`${filePath}.part`)) {
     onProgress?.({
       status: "downloading",
+      phase: "downloading",
       downloadedBytes: 0,
       filename: filePath,
     });
@@ -294,13 +304,30 @@ export async function downloadFormat(
   // rewrite it to H.264 in place. Only TikTok/Instagram ship HEVC, and only
   // those platforms pay the ffprobe cost — YouTube downloads skip this.
   if (checkHEVC && (await fileUsesHEVC(filePath))) {
-    const transcoded = await transcodeToH264(filePath);
-    if (transcoded) {
-      onProgress?.({ status: "downloading", downloadedBytes: 0, filename: transcoded });
+    if (onCancel?.()) {
+      throw new Error("Cancelled during conversion");
     }
+    onProgress?.({
+      status: "downloading",
+      phase: "converting",
+      downloadedBytes: 0,
+      filename: filePath,
+    });
+    // Throws TranscodeError on failure so the job is marked failed instead of
+    // serving an HEVC file the browser can't play (audio but no video).
+    await transcodeToH264(filePath, onCancel);
+    if (onCancel?.()) {
+      throw new Error("Cancelled during conversion");
+    }
+    onProgress?.({
+      status: "downloading",
+      phase: "downloading",
+      downloadedBytes: 0,
+      filename: filePath,
+    });
   }
 
-  onProgress?.({ status: "finished", downloadedBytes: 0 });
+  onProgress?.({ status: "finished", phase: "downloading", downloadedBytes: 0 });
 
   return {
     filePath,
@@ -350,13 +377,17 @@ async function fileUsesHEVC(filePath: string): Promise<boolean> {
 /**
  * Rewrite a file's video track from HEVC/H.265 to H.264 (AAC audio preserved).
  * Writes to a temp sibling then atomically renames over the original.
- * Returns the final path, or null if transcoding failed (caller keeps the
- * original file).
+ * Throws TranscodeError on failure so the caller never serves a file the
+ * browser can't decode (HEVC -> audio-only playback).
  */
-async function transcodeToH264(filePath: string): Promise<string | null> {
+async function transcodeToH264(
+  filePath: string,
+  onCancel?: () => boolean
+): Promise<string> {
   const tmp = `${filePath}.h264.tmp.mp4`;
-  try {
-    await execFileAsync("ffmpeg", [
+  const child = execFile(
+    "ffmpeg",
+    [
       "-y",
       "-v",
       "error",
@@ -373,17 +404,53 @@ async function transcodeToH264(filePath: string): Promise<string | null> {
       "-movflags",
       "+faststart",
       tmp,
-    ], { maxBuffer: 1024 * 1024, timeout: 120_000 });
+    ],
+    { maxBuffer: 1024 * 1024 }
+  );
+  try {
+    await new Promise<void>((resolve, reject) => {
+      const timer = setTimeout(() => {
+        child.kill("SIGTERM");
+        reject(
+          new TranscodeError(
+            `HEVC->H.264 conversion timed out after ${config.transcodeTimeoutMs / 1000}s`
+          )
+        );
+      }, config.transcodeTimeoutMs);
+      child.on("close", (code) => {
+        clearTimeout(timer);
+        if (code === 0) {
+          resolve();
+        } else {
+          reject(
+            new TranscodeError(`ffmpeg exited with code ${code}`)
+          );
+        }
+      });
+      child.on("error", (err) => {
+        clearTimeout(timer);
+        reject(new TranscodeError(`ffmpeg failed to start: ${err.message}`));
+      });
+      // Poll for cancellation and kill ffmpeg if requested.
+      if (onCancel) {
+        const pollCancel = setInterval(() => {
+          if (onCancel()) {
+            clearInterval(pollCancel);
+            child.kill("SIGTERM");
+            reject(new TranscodeError("Conversion cancelled"));
+          }
+        }, 500);
+        child.once("close", () => clearInterval(pollCancel));
+      }
+    });
     await rename(tmp, filePath);
     return filePath;
   } catch (err) {
     await unlink(tmp).catch(() => {});
-    console.warn(
-      `[ytdlp] HEVC->H.264 transcode failed for ${filePath}: ${
-        err instanceof Error ? err.message : String(err)
-      }`
+    if (err instanceof TranscodeError) throw err;
+    throw new TranscodeError(
+      err instanceof Error ? err.message : String(err)
     );
-    return null;
   }
 }
 

@@ -262,14 +262,20 @@ export default function Home() {
 
       {job && (job.status === "queued" || job.status === "downloading") && (
         <section className="progress-card">
-          <h3>Downloading…</h3>
+          <h3>{job.phase === "converting" ? "Converting…" : "Downloading…"}</h3>
           <div className="progress-bar">
             <div className="progress-fill" style={{ width: `${progress}%` }} />
           </div>
           <div className="progress-meta">
-            <span>{progress}%</span>
-            <span>{formatSpeed(job.speedBytesPerSec)}</span>
-            <span>{formatEta(job.etaSeconds)}</span>
+            {job.phase === "converting" ? (
+              <span>Preparing video for playback…</span>
+            ) : (
+              <>
+                <span>{progress}%</span>
+                <span>{formatSpeed(job.speedBytesPerSec)}</span>
+                <span>{formatEta(job.etaSeconds)}</span>
+              </>
+            )}
           </div>
           <button onClick={handleCancel} className="btn btn-cancel">
             Cancel
