@@ -55,8 +55,20 @@ NODE_ENV=development npm install
 npm run dev                  # http://localhost:3000
 ```
 
-> Note: `NODE_ENV=production` in your shell makes npm skip devDependencies.
-> Prefix installs with `NODE_ENV=development` if you hit that.
+> **Note on `NODE_ENV`:** both apps keep all build tools (`typescript`, `tailwindcss`,
+> `postcss`, …) in `devDependencies`. npm **skips devDependencies** when it sees
+> `NODE_ENV=production` in the shell, so the build then fails with "tsc: command not
+> found". If your shell or CI sets `NODE_ENV=production`, prefix installs with
+> `NODE_ENV=development`:
+>
+> ```bash
+> cd backend && NODE_ENV=development npm ci
+> cd ../frontend && NODE_ENV=development npm ci
+> ```
+>
+> The frontend `build` script already sets `NODE_ENV=production` itself, so when you
+> build it, unset the variable (`env -u NODE_ENV npm run build`) so the shell's value
+> doesn't leak in and force a development build.
 
 ## API
 
@@ -151,6 +163,11 @@ cd backend && NODE_ENV=development npm ci && npm run build
 cd ../frontend && NODE_ENV=development npm ci && env -u NODE_ENV npm run build
 bash deploy/install-services.sh   # copies static assets + reinstalls/restarts services
 ```
+
+> The `NODE_ENV=development` prefix on `npm ci` is required because npm skips
+> devDependencies (build tools) when `NODE_ENV=production` is set in the shell.
+> The `env -u NODE_ENV` before the frontend build unsets it again so `next build`
+> runs in production mode (its script sets `NODE_ENV=production` itself).
 
 **How it's wired:** Caddy (`/etc/caddy/Caddyfile`) proxies `/api/*` → `127.0.0.1:8787`
 (backend) and everything else → `127.0.0.1:3000` (frontend). Both run under systemd and
