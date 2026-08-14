@@ -1,4 +1,4 @@
-# Vibe Downloader — Video Downloader
+# Cloud Downloader — Video Downloader
 
 Multi-platform video downloader (YouTube · TikTok · Instagram Reels) built from the
 [PRD](./PRD_Video_Downloader.md). Backend is Node.js + Express + TypeScript using
@@ -27,7 +27,9 @@ Multi-platform video downloader (YouTube · TikTok · Instagram Reels) built fro
 └── frontend/                 # Next.js 14 App Router (port 3000)
     ├── app/
     │   ├── page.tsx          # Paste URL → quality select → progress → history
-    │   └── globals.css
+    │   ├── layout.tsx        # Root layout (Inter, Material Symbols, light mode)
+    │   └── globals.css       # Tailwind + design-system utilities
+    ├── tailwind.config.ts    # Material You palette from stitch_prd_visual_design
     └── lib/
         ├── client.ts         # API client
         └── types.ts
@@ -195,7 +197,7 @@ Required env vars:
 
 | Var | Recommended value |
 |-----|-------------------|
-| `CORS_ORIGINS` | your Vercel frontend URL, e.g. `https://vibe-downloader.vercel.app` |
+| `CORS_ORIGINS` | your Vercel frontend URL, e.g. `https://cloud-downloader.vercel.app` |
 | `PORT` | `8787` (Railway sets it automatically; use `$PORT` binding) |
 
 After deploy you get a URL like `https://video-downloader-backend.up.railway.app`.

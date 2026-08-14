@@ -1,5 +1,5 @@
 [Unit]
-Description=Vibe Downloader — backend API (Express, port 8787)
+Description=Cloud Downloader — backend API (Express, port 8787)
 After=network.target
 
 [Service]

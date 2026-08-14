@@ -1,5 +1,5 @@
 [Unit]
-Description=Vibe Downloader — frontend (Next.js, port 3000)
+Description=Cloud Downloader — frontend (Next.js, port 3000)
 After=network.target
 
 [Service]
