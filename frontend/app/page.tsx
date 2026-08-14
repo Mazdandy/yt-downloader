@@ -213,7 +213,7 @@ export default function Home() {
   return (
     <main className="page min-h-screen flex flex-col">
       {/* ===== TopAppBar (mobile) ===== */}
-      <header className="docked top-0 flex justify-between items-center w-full px-container-margin py-stack-sm bg-surface z-40">
+      <header className="fixed top-0 flex justify-between items-center w-full px-container-margin py-stack-sm bg-surface z-40">
         <button
           aria-label="Home"
           className="w-[48px] h-[48px] flex items-center justify-center rounded-full hover:bg-surface-container-high transition-colors active:scale-95 text-primary"
@@ -232,7 +232,7 @@ export default function Home() {
       </header>
 
       {/* ===== Main Canvas ===== */}
-      <div className="flex-1 overflow-y-auto hide-scrollbar px-container-margin py-stack-md pb-[110px] relative">
+      <div className="flex-1 overflow-y-auto hide-scrollbar px-container-margin pt-[72px] pb-[110px] relative">
         {/* Ambient glow (mobile home) */}
         <div className="ambient-glow" />
 
@@ -241,7 +241,7 @@ export default function Home() {
           <h2 className="font-headline-lg-mobile text-headline-lg-mobile text-on-surface md:text-headline-lg md:font-headline-lg text-center md:mt-6">
             Download any video.
           </h2>
-          <p className="font-body-md text-body-md text-on-surface-variant mb-2 text-center">
+          <p className="font-body-md text-body-md text-on-surface-variant mb-2 text-center max-w-md mx-auto break-words">
             Paste a link to get started — fast, reliable, no watermarks.
           </p>
           <form
@@ -280,7 +280,7 @@ export default function Home() {
           <h2 className="font-label-sm text-label-sm text-outline uppercase tracking-wider mb-stack-sm text-center md:text-left md:max-w-2xl md:mx-auto">
             Supported Platforms
           </h2>
-          <div className="grid grid-cols-3 gap-gutter max-w-2xl mx-auto">
+          <div className="grid grid-cols-3 gap-gutter max-w-full w-full mx-auto">
             {(["youtube", "tiktok", "instagram"] as const).map((p) => {
               const meta = PLATFORM_META[p];
               return (

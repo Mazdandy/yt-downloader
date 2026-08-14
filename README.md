@@ -102,7 +102,9 @@ All optional, via env vars (see `backend/.env.example`):
 | `YTDLP_PATH` | `yt-dlp` | Path to the yt-dlp binary |
 | `TEMP_DIR` | system tmp | Where temp downloads live (deleted after streaming) |
 | `CORS_ORIGINS` | `*` | Comma-separated allowed origins |
-| `MAX_CONCURRENT_DOWNLOADS` | `3` | Concurrent download cap (PRD FR-13) |
+| `TRANSCODE_TIMEOUT_MS` | `120000` | Max time for the HEVC→H.264 transcode before the job is marked failed |
+
+`MAX_CONCURRENT_DOWNLOADS` is fixed at 3 (PRD FR-13); it's no longer configurable via env var.
 
 ## Deployment
 
@@ -223,6 +225,11 @@ Verify: `curl https://<your-backend>/api/v1/health` → `{"status":"ok"}`.
   video-only/audio-only pairs that need ffmpeg merging server-side. With pass-through,
   only progressive (single-file) and audio-only formats are served; DASH formats are
   returned in `unavailableFormats` and shown as a hint in the UI.
+- **HEVC→H.264 transcode for TikTok/Instagram.** TikTok and Instagram sometimes ship
+  HEVC (`bytevc1_*`) streams, which most browsers can't play. After download the file is
+  probed with ffmpeg and, if the video track is HEVC, rewritten to H.264 in place
+  (AAC audio preserved). Timeout is configurable via `TRANSCODE_TIMEOUT_MS`; a failed
+  transcode marks the job failed rather than serving a file with no playable video.
 - **One-shot file delivery.** A finished file can be fetched once via `/file/:id`, then
   it's deleted. Refetching returns 404. This honors the "no server storage" requirement.
 - **`--print after_move:filepath`** is used to resolve the real output path (yt-dlp may
