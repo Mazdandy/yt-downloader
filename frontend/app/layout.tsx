@@ -1,32 +1,42 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import {
+  PLATFORM_DESCRIPTION,
+  PLATFORM_TITLE,
+} from "../lib/platforms";
 
 const SITE_URL = "https://downloader.loveonthe.cloud";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Online Video Downloader — YouTube | TikTok | Instagram Reels",
-    template: "%s | Online Video Downloader",
+    default: `LOTC - Video Downloader — ${PLATFORM_TITLE}`,
+    template: "%s | LOTC - Video Downloader",
   },
-  description:
-    "Download videos from YouTube, TikTok and Instagram Reels. Paste a URL, pick a quality, download.",
+  description: `Download videos from ${PLATFORM_DESCRIPTION}. Paste a URL, pick a quality, download.`,
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
+    ],
+    apple: [{ url: "/icon-512.png", sizes: "512x512", type: "image/png" }],
+  },
+  manifest: "/manifest.webmanifest",
   alternates: {
     canonical: "/",
   },
   openGraph: {
     type: "website",
     url: SITE_URL,
-    siteName: "Online Video Downloader",
-    title: "Online Video Downloader — YouTube | TikTok | Instagram Reels",
-    description:
-      "Download videos from YouTube, TikTok and Instagram Reels. Paste a URL, pick a quality, download.",
+    siteName: "LOTC - Video Downloader",
+    title: `LOTC - Video Downloader — ${PLATFORM_TITLE}`,
+    description: `Download videos from ${PLATFORM_DESCRIPTION}. Paste a URL, pick a quality, download.`,
   },
   twitter: {
     card: "summary",
-    title: "Online Video Downloader — YouTube | TikTok | Instagram Reels",
-    description:
-      "Download videos from YouTube, TikTok and Instagram Reels. Paste a URL, pick a quality, download.",
+    title: `LOTC - Video Downloader — ${PLATFORM_TITLE}`,
+    description: `Download videos from ${PLATFORM_DESCRIPTION}. Paste a URL, pick a quality, download.`,
   },
   robots: {
     index: true,
@@ -42,10 +52,9 @@ export default function RootLayout({
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    name: "Online Video Downloader",
+    name: "LOTC - Video Downloader",
     url: SITE_URL,
-    description:
-      "Download videos from YouTube, TikTok and Instagram Reels. Paste a URL, pick a quality, download.",
+    description: `Download videos from ${PLATFORM_DESCRIPTION}. Paste a URL, pick a quality, download.`,
     applicationCategory: "UtilityApplication",
     operatingSystem: "Any",
   };

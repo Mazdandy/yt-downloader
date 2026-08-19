@@ -14,21 +14,7 @@ import {
   ParseResponse,
   VideoFormat,
 } from "../lib/types";
-
-const PLATFORM_NAMES: Record<string, string> = {
-  youtube: "YouTube",
-  tiktok: "TikTok",
-  instagram: "Instagram",
-  twitter: "Twitter",
-  x: "X",
-  facebook: "Facebook",
-  reddit: "Reddit",
-  vimeo: "Vimeo",
-  twitch: "Twitch",
-  dailymotion: "Dailymotion",
-  soundcloud: "SoundCloud",
-  other: "Other",
-};
+import { PLATFORM_NAMES, SUPPORTED_PLATFORMS } from "../lib/platforms";
 
 const PLATFORM_META: Record<
   string,
@@ -96,20 +82,6 @@ const PLATFORM_META: Record<
   },
 };
 
-const SUPPORTED_PLATFORMS = [
-  "youtube",
-  "tiktok",
-  "instagram",
-  "twitter",
-  "facebook",
-  "reddit",
-  "vimeo",
-  "twitch",
-  "dailymotion",
-  "soundcloud",
-  "other",
-] as const;
-
 /** Meta for a platform, falling back to the generic "other" for unknown sites. */
 function platformMeta(p: string) {
   return PLATFORM_META[p] || PLATFORM_META.other;
@@ -158,6 +130,35 @@ function Icon({
     >
       {name}
     </span>
+  );
+}
+
+/** Brand mark: cloud + download arrow, the LOTC logo. */
+function BrandMark({ className = "" }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 64 64"
+      className={className}
+      aria-hidden="true"
+      role="img"
+    >
+      <path
+        d="M46 54H20C12.82 54 7 48.18 7 41c0-5.78 3.9-10.64 9.2-12.16A16 16 0 0 1 40 19.6 14 14 0 0 1 50.6 28.9C55.94 30.3 60 34.98 60 40.6 60 47.4 53.74 54 46 54Z"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M32 46V24M24.5 39.5 32 47l7.5-7.5"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
   );
 }
 
@@ -291,10 +292,10 @@ export default function Home() {
           aria-label="Home"
           className="w-[48px] h-[48px] flex items-center justify-center rounded-full hover:bg-surface-container-high transition-colors active:scale-95 text-primary"
         >
-          <Icon name="download" className="text-2xl" />
+          <BrandMark className="w-7 h-7" />
         </button>
         <h1 className="font-headline-md text-headline-md font-bold text-primary">
-          Cloud Downloader
+          LOTC
         </h1>
         <button
           aria-label="Account"
