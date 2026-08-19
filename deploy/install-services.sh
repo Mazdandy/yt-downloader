@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ============================================================
-# Install or update the systemd services for Cloud Downloader.
+# Install or update the systemd services for LOTC - Video Downloader.
 # Run after git pull to redeploy:
 #   bash deploy/install-services.sh && sudo systemctl restart vdl-backend vdl-frontend
 # ============================================================

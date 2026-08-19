@@ -1,11 +1,12 @@
 # Product Requirements Document (PRD)
-## Multi-Platform Video Downloader
-### YouTube · TikTok · Instagram Reels
+## LOTC - Video Downloader
+### Multi-Platform Video Downloader
+#### YouTube · TikTok · Instagram Reels
 
 ---
 
-**Document Version:** 1.0  
-**Date:** August 4, 2026  
+**Document Version:** 1.1  
+**Date:** August 19, 2026  
 **Status:** Draft  
 **Owner:** Product Team  
 
@@ -13,7 +14,7 @@
 
 ## 1. Executive Summary
 
-A cross-platform video downloader application that enables users to download videos from YouTube, TikTok, and Instagram Reels quickly, reliably, and with flexible quality options. The product targets content creators, researchers, educators, and general users who need offline access to social media video content.
+A cross-platform video downloader application (**LOTC - Video Downloader**) that enables users to download videos from YouTube, TikTok, and Instagram Reels quickly, reliably, and with flexible quality options. The product targets content creators, researchers, educators, and general users who need offline access to social media video content.
 
 ---
 

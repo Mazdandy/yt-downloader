@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ============================================================
-# Cloud Downloader — VPS setup (no Docker)
+# LOTC - Video Downloader — VPS setup (no Docker)
 # Tested on Ubuntu 22.04/24.04. Run as a normal user with sudo.
 #   usage: bash deploy/setup-vps.sh your-domain.com
 # ============================================================

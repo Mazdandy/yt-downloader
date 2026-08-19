@@ -1,4 +1,4 @@
-# Cloud Downloader — Video Downloader
+# LOTC - Video Downloader
 
 Multi-platform video downloader (YouTube · TikTok · Instagram Reels) built from the
 [PRD](./PRD_Video_Downloader.md). Backend is Node.js + Express + TypeScript using

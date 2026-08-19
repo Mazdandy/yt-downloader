@@ -1,4 +1,4 @@
-# Render Blueprint — Video Downloader Backend
+# Render Blueprint — LOTC - Video Downloader Backend
 # Deploy via: Render dashboard → Blueprint → point at this repo (subdirectory: backend)
 services:
   - type: web
