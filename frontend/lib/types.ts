@@ -1,4 +1,16 @@
-export type Platform = "youtube" | "tiktok" | "instagram";
+export type Platform =
+  | "youtube"
+  | "tiktok"
+  | "instagram"
+  | "twitter"
+  | "x"
+  | "facebook"
+  | "reddit"
+  | "vimeo"
+  | "twitch"
+  | "dailymotion"
+  | "soundcloud"
+  | "other";
 
 export interface VideoFormat {
   formatId: string;

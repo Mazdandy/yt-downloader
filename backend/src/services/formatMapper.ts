@@ -108,10 +108,15 @@ export function buildFormats(
       continue;
     }
 
-    if (vf.kind === "video" || vf.kind === "video+audio") {
+    // All other platforms (twitter/x, facebook, reddit, vimeo, twitch, ...):
+    // behave like YouTube — keep progressive (video+audio) and audio-only
+    // formats, hide video-only streams that need server-side merging.
+    if (vf.kind === "audio") {
+      available.push(vf);
+    } else if (vf.kind === "video+audio") {
       available.push(vf);
     } else {
-      available.push(vf); // audio-only streams, keep them
+      unavailable.push(vf);
     }
   }
 

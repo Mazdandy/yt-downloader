@@ -219,14 +219,14 @@ Required env vars:
 | `CORS_ORIGINS` | your Vercel frontend URL, e.g. `https://cloud-downloader.vercel.app` |
 | `PORT` | `8787` (Railway sets it automatically; use `$PORT` binding) |
 
-After deploy you get a URL like `https://video-downloader-backend.up.railway.app`.
-Verify: `curl https://<your-backend>/api/v1/health` → `{"status":"ok"}`.
+After deploy you get a URL like `https://downloader.loveonthe.cloud/`.
+Verify: `curl https://downloader.loveonthe.cloud/api/v1/health` → `{"status":"ok"}`.
 
 **Frontend** — Vercel:
 
 1. Push the repo to GitHub, import the `frontend/` directory in Vercel (framework: Next.js).
 2. Add the env var **at build time**:
-   `NEXT_PUBLIC_API_URL=https://<your-backend-domain>`
+   `NEXT_PUBLIC_API_URL=https://downloader.loveonthe.cloud/api`
 3. Deploy. The frontend talks to the backend via `lib/client.ts`.
 
 ### Post-deploy checklist

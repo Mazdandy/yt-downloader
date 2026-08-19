@@ -19,6 +19,15 @@ const PLATFORM_NAMES: Record<string, string> = {
   youtube: "YouTube",
   tiktok: "TikTok",
   instagram: "Instagram",
+  twitter: "Twitter",
+  x: "X",
+  facebook: "Facebook",
+  reddit: "Reddit",
+  vimeo: "Vimeo",
+  twitch: "Twitch",
+  dailymotion: "Dailymotion",
+  soundcloud: "SoundCloud",
+  other: "Other",
 };
 
 const PLATFORM_META: Record<
@@ -40,7 +49,71 @@ const PLATFORM_META: Record<
     iconClass: "text-on-primary",
     chipClass: "bg-gradient-to-tr from-instagram-gradient-start to-instagram-gradient-end text-on-primary",
   },
+  twitter: {
+    icon: "chat",
+    iconClass: "text-secondary",
+    chipClass: "bg-secondary-fixed text-on-secondary-fixed",
+  },
+  x: {
+    icon: "close",
+    iconClass: "text-on-surface",
+    chipClass: "bg-surface-dim text-on-surface",
+  },
+  facebook: {
+    icon: "thumb_up",
+    iconClass: "text-tertiary",
+    chipClass: "bg-tertiary-container text-on-tertiary-container",
+  },
+  reddit: {
+    icon: "forum",
+    iconClass: "text-error-red",
+    chipClass: "bg-error-container text-on-error-container",
+  },
+  vimeo: {
+    icon: "movie",
+    iconClass: "text-primary",
+    chipClass: "bg-primary-fixed text-on-primary-fixed",
+  },
+  twitch: {
+    icon: "live_tv",
+    iconClass: "text-secondary-fixed",
+    chipClass: "bg-secondary text-on-secondary",
+  },
+  dailymotion: {
+    icon: "smart_display",
+    iconClass: "text-tertiary",
+    chipClass: "bg-tertiary-fixed text-on-tertiary-fixed",
+  },
+  soundcloud: {
+    icon: "graphic_eq",
+    iconClass: "text-warning-amber",
+    chipClass: "bg-tertiary-container text-on-tertiary-container",
+  },
+  other: {
+    icon: "link",
+    iconClass: "text-on-surface-variant",
+    chipClass: "bg-surface-variant text-on-surface",
+  },
 };
+
+const SUPPORTED_PLATFORMS = [
+  "youtube",
+  "tiktok",
+  "instagram",
+  "twitter",
+  "facebook",
+  "reddit",
+  "vimeo",
+  "twitch",
+  "dailymotion",
+  "soundcloud",
+  "other",
+] as const;
+
+/** Meta for a platform, falling back to the generic "other" for unknown sites. */
+function platformMeta(p: string) {
+  return PLATFORM_META[p] || PLATFORM_META.other;
+}
 
 function formatDuration(sec: number): string {
   if (!sec) return "—";
@@ -281,8 +354,8 @@ export default function Home() {
             Supported Platforms
           </h2>
           <div className="grid grid-cols-3 gap-gutter max-w-full w-full mx-auto">
-            {(["youtube", "tiktok", "instagram"] as const).map((p) => {
-              const meta = PLATFORM_META[p];
+            {SUPPORTED_PLATFORMS.map((p) => {
+              const meta = platformMeta(p);
               return (
                 <div
                   key={p}
@@ -320,12 +393,12 @@ export default function Home() {
                     className="w-full h-full object-cover"
                   />
                   <span
-                    className={`absolute top-2 left-2 h-8 w-8 rounded-full flex items-center justify-center shadow-sm ${PLATFORM_META[preview.platform].chipClass}`}
+                    className={`absolute top-2 left-2 h-8 w-8 rounded-full flex items-center justify-center shadow-sm ${platformMeta(preview.platform).chipClass}`}
                   >
                     <Icon
-                      name={PLATFORM_META[preview.platform].icon}
+                      name={platformMeta(preview.platform).icon}
                       filled
-                      className={`text-[20px] ${PLATFORM_META[preview.platform].iconClass}`}
+                      className={`text-[20px] ${platformMeta(preview.platform).iconClass}`}
                     />
                   </span>
                   <span className="absolute bottom-2 right-2 bg-black/70 text-white font-mono-label text-mono-label px-2 py-1 rounded">
@@ -462,7 +535,7 @@ export default function Home() {
                       {job?.title || "Downloading…"}
                     </h3>
                     <p className="font-label-sm text-label-sm text-secondary">
-                      {PLATFORM_NAMES[job?.platform || "youtube"]} ·{" "}
+                      {PLATFORM_NAMES[job?.platform || "youtube"] || "Video"} ·{" "}
                       {job?.formatId}
                     </p>
                   </div>
@@ -612,7 +685,7 @@ export default function Home() {
                             {h.formatLabel}
                           </span>
                           <span>•</span>
-                          <span>{PLATFORM_NAMES[h.platform]}</span>
+                          <span>{PLATFORM_NAMES[h.platform] || "Other"}</span>
                           <span>•</span>
                           <span>{new Date(h.timestamp).toLocaleTimeString()}</span>
                         </div>

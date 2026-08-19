@@ -4,7 +4,6 @@ import { validateUrl } from "../services/urlDetection.js";
 import { fetchMetadata } from "../services/ytdlp.js";
 import { buildParseResponse } from "../services/parseService.js";
 import { downloadManager, createJob } from "../services/downloadManager.js";
-import { Platform } from "../types.js";
 
 export const apiRouter = Router();
 
@@ -20,7 +19,7 @@ apiRouter.post("/parse", async (req: Request, res: Response) => {
 
   try {
     const metadata = await fetchMetadata(url);
-    res.json(buildParseResponse(url, platform as Platform, metadata));
+    res.json(buildParseResponse(url, platform, metadata));
   } catch (err) {
     res.status(422).json({
       error: "Could not resolve video. It may be private, region-locked, or unavailable.",

@@ -1,4 +1,21 @@
-export type Platform = "youtube" | "tiktok" | "instagram";
+/**
+ * Platform detected from the URL hostname. Open-ended on purpose: any site
+ * yt-dlp supports is allowed, so we only special-case the ones whose streams
+ * need extra handling (HEVC transcode) or are shown with branded UI.
+ */
+export type Platform =
+  | "youtube"
+  | "tiktok"
+  | "instagram"
+  | "twitter"
+  | "x"
+  | "facebook"
+  | "reddit"
+  | "vimeo"
+  | "twitch"
+  | "dailymotion"
+  | "soundcloud"
+  | "other";
 
 export interface VideoFormat {
   /** yt-dlp format id, e.g. "18", "22", "137", "bestaudio" */
